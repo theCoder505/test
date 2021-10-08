@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sample</title>
+    <style>
+        body {
+            background-color: #262525;
+        }
+
+        span {
+            font-family: "Cutive Mono", monospace;
+            color: white;
+            opacity: 0;
+        }
+
+
+
+        @-webkit-keyframes anim {
+            0% {
+                opacity: 0;
+                text-shadow: 0px 0px 1px rgba(255, 255, 255, 0.1);
+            }
+
+            66% {
+                opacity: 1;
+                text-shadow: 0px 0px 20px rgba(255, 255, 255, 0.9);
+            }
+
+            77% {
+                opacity: 1;
+            }
+
+            100% {
+                opacity: 0.7;
+                text-shadow: 0px 0px 20px rgba(255, 255, 255, 0);
+            }
+        }
+
+
+
+
+        @keyframes anim {
+            0% {
+                opacity: 0;
+                text-shadow: 0px 0px 1px rgba(255, 255, 255, 0.1);
+            }
+
+            66% {
+                opacity: 1;
+                text-shadow: 0px 0px 20px rgba(255, 255, 255, 0.9);
+            }
+
+            77% {
+                opacity: 1;
+            }
+
+            100% {
+                opacity: 0.7;
+                text-shadow: 0px 0px 20px rgba(255, 255, 255, 0);
+            }
+        }
+
+        button {
+            margin-top: 50px;
+            padding: 8px 30px;
+            color: white;
+            background-color: teal;
+            border-radius: 25px;
+            font-size: 15px;
+            border: none;
+            margin-right: 25px;
+        }
+
+
+
+        .js-spanize {
+            color: white;
+        }
+
+        .items_holder {
+            font-family: "Cutive Mono", monospace;
+            font-size: 1em;
+            font-weight: 400;
+            letter-spacing: 0.1em;
+        }
+
+        #paras_holder{
+            max-width: 300px;
+            word-wrap: break-word;
+            border: 5px solid red;
+            border-radius: 15px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div id="paras_holder">
+        <p class="items_holder">
+This is a story, all about how,
+My life got twisted upside down.
+So I'd like to tell a story, just sit right there.
+And I'll tell you how I became the prince of Bel Air.
+        </p>
+    </div>
+
+    <button id="startAnim">Start Animation</button>
+    <button id="stopAnim">Stop Animation</button>
+
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"
+        integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+
+    <script>
+
+
+
+        // setting span to all texts under the specified element items_holder
+        (function ($) {
+            var s,
+                spanizeLetters = {
+                    settings: {
+                        letters: $('.items_holder'),
+                    },
+                    init: function () {
+                        s = this.settings;
+                        this.bindEvents();
+                    },
+                    bindEvents: function () {
+                        s.letters.html(function (i, el) {
+                            //spanizeLetters.joinChars();
+                            var spanizer = $.trim(el).split("");
+                            return '<span class="item">' + spanizer.join('</span><span class="item">') + '</span>';
+                        });
+                    },
+                };
+            spanizeLetters.init();
+        })(jQuery);
+
+
+
+
+
+
+        // setting the functions for all dynamically!... 
+        $(document).ready(function () {
+
+            var numItems = $('.item').length;
+            // console.log(numItems);
+            let seconds = 0;
+
+
+            $("#startAnim").on("click", function () {
+                $("span").css("animation", "anim 0.7s ease both");
+                $("span").css("animation-play-state", "running");
+
+                for (let i = 1; i <= numItems; i++) {
+                    console.log(i);
+                    $(".item:nth-child(" + i + ")").addClass("item" + seconds);
+                    $(".item:nth-child(" + i + ")").css("animation-delay", + i / 10 + "s");
+                    seconds = seconds + 1;
+
+                    $("#stopAnim").on("click", function () {
+                        $("span").css("animation-play-state", "paused");
+                    });
+
+                }
+
+
+            });
+
+
+
+        });
+
+
+
+
+
+        // setting the functions for all dynamically!... 
+        $(document).ready(function () {
+
+            var numItems = $('.item').length;
+            // console.log(numItems);
+            let seconds = 0;
+
+
+            $("#paras_holder").on("mousedown", function () {
+                $("span").css("animation", "anim 0.7s ease both");
+                $("span").css("animation-play-state", "running");
+
+                for (let i = 1; i <= numItems; i++) {
+                    console.log(i);
+                    $(".item:nth-child(" + i + ")").addClass("item" + seconds);
+                    $(".item:nth-child(" + i + ")").css("animation-delay", + i / 10 + "s");
+                    seconds = seconds + 1;
+
+                    $("#paras_holder").on("mouseup", function () {
+                        $("span").css("animation-play-state", "paused");
+                    });
+
+                }
+
+
+            });
+
+
+
+        });
+
+    </script>
+</body>
+
+</html>
